@@ -1,0 +1,38 @@
+{
+  "_readme": [
+    "Reusable config pack for home-monitor. Keys starting with _ are ignored.",
+    "targets[].name is the handle you pass to tools as { target: 'name' }.",
+    "http.targets[].expect accepts a number or an array of acceptable status codes.",
+    "ssl.targets[].warnDays overrides the global ssl.warnDays for one host.",
+    "docker.enabled=false is the safe default: it reports 'unavailable' instead of failing.",
+    "Hosts are masked as ***.***.*.*** - replace them with your own box's LAN address."
+  ],
+  "http": {
+    "timeoutMs": 8000,
+    "targets": [
+      { "name": "dsh", "url": "http://***.***.*.***:3080/", "expect": [200, 302, 401] },
+      { "name": "hermes-api", "url": "http://***.***.*.***:8642/v1/models", "expect": [200, 401] },
+      { "name": "hermes-dash", "url": "http://***.***.*.***:9119/", "expect": [200, 302] },
+      { "name": "fnos", "url": "http://***.***.*.***:5666/", "expect": [200, 302] },
+      { "name": "pub", "url": "http://***.***.*.***:8091/", "expect": 200 }
+    ]
+  },
+  "tcp": {
+    "timeoutMs": 5000,
+    "targets": [
+      { "name": "ssh", "host": "***.***.*.***", "port": 22 }
+    ]
+  },
+  "ssl": {
+    "timeoutMs": 10000,
+    "warnDays": 21,
+    "targets": [
+      { "name": "lowspechq", "host": "lowspechq.com", "port": 443 },
+      { "name": "dsh-lan", "host": "***.***.*.***", "port": 3080, "warnDays": 0, "allowSelfSigned": true }
+    ]
+  },
+  "docker": {
+    "enabled": false,
+    "socket": "/var/run/docker.sock"
+  }
+}

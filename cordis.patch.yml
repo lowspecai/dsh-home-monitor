@@ -1,0 +1,25 @@
+# home-monitor bundle patch
+#
+# Adds one MCP client row that launches the bundled read-only monitor server
+# as a child process over stdio. Tools show up as mcp__home_monitor__check_http
+# and so on.
+#
+# Two things that are easy to get wrong here:
+#   * `env` — the MCP client scrubs the ambient environment unless you pass env
+#     explicitly, so PATH has to be spelled out or `node` will not be found.
+#   * `config` is replaced wholesale, never deep-merged, so every field the row
+#     needs must appear below.
+- insert:
+    - id: dsh-mcp-client
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        transport: stdio
+        serverName: home_monitor
+        command: node
+        args:
+          - /workspace/home-monitor/server/index.js
+        cwd: /workspace/home-monitor
+        env:
+          PATH: /usr/local/bin:/usr/bin:/bin
+        toolCallTimeoutMs: 30000
+        failOnStartupError: false

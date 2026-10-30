@@ -1,0 +1,37 @@
+{
+  "name": "home-monitor",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "Self-hosted service monitoring for DSH: MCP server + thin DSH plugin.",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "engines": {
+    "dsh": ">=0.2.0-rc.2"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tools": "*"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-tools": { "optional": true }
+  },
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "files": [
+    "lib/",
+    "server/",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "docs/assets/"
+  ]
+}
